@@ -10,6 +10,7 @@ I am using two datasets. The first dataset, from https://opendata.dc.gov/, is th
 
 Results:
 Registry = 1 + beta * distance_to_school
+\n
 beta = 0.049
 # Intercept is 1 because there is no comparison to non-registered offenders. 
 
