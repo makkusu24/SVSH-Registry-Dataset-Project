@@ -10,8 +10,7 @@ I am using two datasets. The first dataset, from https://opendata.dc.gov/, is th
 
 Results:
 Registry = 1 + beta * distance_to_school
-\n
-beta = 0.049
+# beta = 0.049 < 0.05 STATISTICALLY SIGNIFICANT
 # Intercept is 1 because there is no comparison to non-registered offenders. 
 
 I used the GeoPy library to calculate minimum distances between each entry of the sex offender registry and their nearest school. In my regression, I found the coefficient to have p-value 0.049 < 0.05, meaning I rejected the null hypothesis. However, the dataset has no entries for people not on the sex offender registry, so the model is unreliable considering I have no comparison.
