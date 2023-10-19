@@ -1,0 +1,37 @@
+# Install some visualization libraries
+import numpy as np
+import matplotlib as plt
+import seaborn as sns
+
+# GeoPy, a library like SymPy or NumPy, is a useful geospatial library
+!pip install geopy==2.4.0
+from geopy.distance import great_circle;
+
+SELECT *
+FROM 'DC_Public_Schools.csv' AS 'schools'
+
+SELECT *
+FROM 'Sex_Offender_Registry.csv' AS 'registry'
+
+# Extract Location Information
+dc_schools_coordinates = schools[['X', 'Y']].rename(columns={'X': 'lon', 'Y': 'lat'})
+sex_offenders_coordinates = registry[['X', 'Y']].rename(columns={'X': 'lon', 'Y': 'lat'})
+dc_schools_coordinates.dropna(inplace=True)
+sex_offenders_coordinates.dropna(inplace=True)
+
+dc_schools_coordinates.head(5), sex_offenders_coordinates.head(5)
+
+min_distances = []
+for offender_idx, offender_row in sex_offenders_coordinates.iterrows():
+    distances = []
+    for school_idx, school_row in dc_schools_coordinates.iterrows():
+        offender_coords = (offender_row['lat'], offender_row['lon'])
+        school_coords = (school_row['lat'], school_row['lon'])
+        distance = great_circle(offender_coords, school_coords).miles
+        distances.append(distance)
+    min_distance = min(distances)
+    min_distances.append(min_distance)
+
+# Add distance in miles to closest school
+sex_offenders_coordinates['min_distance_to_school'] = min_distances
+sex_offenders_coordinates.head(5)
